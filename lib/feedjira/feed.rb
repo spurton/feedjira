@@ -77,10 +77,10 @@ module Feedjira
     end
 
     def self.connection(url)
-      Faraday.new(url: url) do |conn|
-        conn.use FaradayMiddleware::FollowRedirects, limit: 3
-        conn.adapter :net_http
-      end
+      connection = Faraday::Connection.new url, ssl: { verify: false }
+      connection.use FaradayMiddleware::FollowRedirects, limit: 3
+      connection.adapter :net_http
+      connection
     end
   end
 end
